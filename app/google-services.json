@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "888447444707",
+    "firebase_url": "https://graduationproject-98e47.firebaseio.com",
+    "project_id": "graduationproject-98e47",
+    "storage_bucket": "graduationproject-98e47.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888447444707:android:2e08ef124e4a1139",
+        "android_client_info": {
+          "package_name": "com.example.ysh.hyena"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "888447444707-pokru5fasq1rqtlnve43i0bmm6c6c0ab.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ysh.hyena",
+            "certificate_hash": "5dcf5cfbf0bb5ee5302edf105b53b026eabca8ee"
+          }
+        },
+        {
+          "client_id": "888447444707-lhltmfqre6b43jk0t05oa7ndqbsbi3bo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-wQJ1shzD5Hf1bpPWK55bmhgZSUKft8k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "888447444707-lhltmfqre6b43jk0t05oa7ndqbsbi3bo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
