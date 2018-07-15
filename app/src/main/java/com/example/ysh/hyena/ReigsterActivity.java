@@ -6,6 +6,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -19,15 +21,8 @@ import java.util.regex.Pattern;
 
 public class ReigsterActivity extends AppCompatActivity {
     private static final Pattern PASSWORD_PATTERN =
-            Pattern.compile("^" +
-                    //"(?=.*[0-9])" +         // 최소 1개의  숫자
-                    //"(?=.*[a-z])" +         // 최소 1개의 소문자
-                    //"(?=.*[A-Z])" +         // 최소 1개의 대문자
-                    //"(?=.*[@#$%^&+=])" +    // 최소 1개의 특수문자
-                    "(?=.*[a-zA-Z])" +        // 모든 문자
-                    "(?=\\S+$)" +             // 공백불가능
-                    ".{6,12}" +               // 6~12자리의 비밀번호
-                    "$");
+            Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
+
 
     TextInputLayout til_register_email;
     TextInputLayout til_register_password;
@@ -53,6 +48,34 @@ public class ReigsterActivity extends AppCompatActivity {
         et_register_password2 = findViewById(R.id.et_register_password2);
         btn_register_register = findViewById(R.id.btn_register_register);
         mAuth_register = FirebaseAuth.getInstance();
+
+
+    }
+
+
+    public void onClick_register(View view) {
+
+        String email = til_register_email.getEditText().getText().toString().trim();
+        String password = til_register_password.getEditText().getText().toString();
+        String password2 = til_register_password2.getEditText().getText().toString();
+
+        if(!password.equals(password2)) {
+
+            til_register_password2.setError("비밀번호가 일치하지 않습니다.");
+            Toast.makeText(ReigsterActivity.this,
+                    "1번은" + til_register_password.getEditText().getText().toString()
+                            + "2번은" + til_register_password2.getEditText().getText().toString(),
+                    Toast.LENGTH_SHORT).show();
+
+
+
+        } else {
+            til_register_password2.setError(null);
+            if((validateEmail() && validatePassword() && validatePassword2()) == true) {
+                createUser(email, password);
+            }
+
+        }
     }
 
     // 이메일 유효성 검사
@@ -78,7 +101,7 @@ public class ReigsterActivity extends AppCompatActivity {
             til_register_password.setError("비밀번호를 입력해주세요");
             return false;
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            til_register_password.setError("비밀번호는 특수문자와 공백을 제외한 6~12자리 입니다.");
+            til_register_password.setError("비밀번호는 영문과 숫자를 혼합하고 \n특수문자와 공백을 제외한 6~12자리 입니다.");
             return false;
         } else {
             til_register_password.setError(null);
@@ -99,6 +122,7 @@ public class ReigsterActivity extends AppCompatActivity {
             til_register_password2.setError(null);
             return true;
         }
+
     }
 
     private void createUser(String email, String password) {
@@ -107,13 +131,15 @@ public class ReigsterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            if(validateEmail() && validatePassword() == true){
                                 // Sign in success, update UI with the signed-in user's information
                                 FirebaseUser user = mAuth_register.getCurrentUser();
-                            }
+                                Toast.makeText(ReigsterActivity.this, "회원가입 완료",
+                                        Toast.LENGTH_SHORT).show();
+
+                                finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(ReigsterActivity.this, "회원가입 실패.",
+                            Toast.makeText(ReigsterActivity.this, "회원가입 실패.  \n이미 존재하는 아이디 입니다.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

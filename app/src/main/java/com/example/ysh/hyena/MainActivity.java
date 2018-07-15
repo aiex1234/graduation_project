@@ -22,15 +22,7 @@ import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     private static final Pattern PASSWORD_PATTERN =
-            Pattern.compile("^" +
-                    //"(?=.*[0-9])" +         // 최소 1개의  숫자
-                    //"(?=.*[a-z])" +         // 최소 1개의 소문자
-                    //"(?=.*[A-Z])" +         // 최소 1개의 대문자
-                    //"(?=.*[@#$%^&+=])" +    // 최소 1개의 특수문자
-                    "(?=.*[a-zA-Z])" +        // 모든 문자
-                    "(?=\\S+$)" +             // 공백불가능
-                    ".{6,12}" +               // 6~12자리의 비밀번호
-                    "$");
+            Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
 
     TextInputLayout til_email;
     TextInputLayout til_password;
@@ -59,6 +51,16 @@ public class MainActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String email = til_email.getEditText().getText().toString().trim();
+                String password = til_password.getEditText().getText().toString();
+
+                if(validateEmail() == true && validatePassword() == true) {
+                    userLogin(email, password);
+                }
+                else {
+                    return;
+                }
             }
         });
 
@@ -95,12 +97,33 @@ public class MainActivity extends AppCompatActivity {
             til_password.setError("비밀번호를 입력해주세요");
             return false;
         } else if (!PASSWORD_PATTERN.matcher(passwordInput).matches()) {
-            til_password.setError("비밀번호는 특수문자와 공백을 제외한 6~12자리 입니다.");
+            til_password.setError("비밀번호는 영문과 숫자를 혼합하고 \n특수문자와 공백을 제외한 6~12자리 입니다.");
             return false;
         } else {
             til_password.setError(null);
             return true;
         }
+    }
+
+    private void userLogin(String email, String password)
+    {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Toast.makeText(MainActivity.this, "사용자님 반갑습니다.",
+                                    Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(MainActivity.this, "로그인 실패.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
     }
 
 }
