@@ -1,5 +1,6 @@
 package com.example.ysh.hyena;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -17,13 +18,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
-
-    String TAG = "MainActivity";
-
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     //"(?=.*[0-9])" +         // 최소 1개의  숫자
@@ -41,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     TextInputEditText et_password;
 
     Button btn_login;
-
+    Button btn_register;
     private FirebaseAuth mAuth;
 
     @Override
@@ -56,13 +53,20 @@ public class MainActivity extends AppCompatActivity {
         et_password = findViewById(R.id.et_password);
 
         btn_login = findViewById(R.id.btn_login);
-
+        btn_register = findViewById(R.id.btn_register);
         mAuth = FirebaseAuth.getInstance();
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createUser(til_email.getEditText().getText().toString().trim(), til_password.getEditText().getText().toString().trim());
+            }
+        });
+
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ReigsterActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -97,29 +101,6 @@ public class MainActivity extends AppCompatActivity {
             til_password.setError(null);
             return true;
         }
-    }
-
-    private void createUser(String email, String password) {
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            if(validateEmail() && validatePassword() == true){
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "createUserWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                            }
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(MainActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-                        // ...
-                    }
-                });
     }
 
 }
