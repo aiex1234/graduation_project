@@ -1,13 +1,11 @@
 package com.example.ysh.hyena;
 
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -27,9 +25,7 @@ public class ReigsterActivity extends AppCompatActivity {
     TextInputLayout til_register_email;
     TextInputLayout til_register_password;
     TextInputLayout til_register_password2;
-    TextInputEditText et_register_email;
-    TextInputEditText et_register_password;
-    TextInputEditText et_register_password2;
+
 
     Button btn_register_register;
     private FirebaseAuth mAuth_register;
@@ -43,38 +39,26 @@ public class ReigsterActivity extends AppCompatActivity {
         til_register_password = findViewById(R.id.til_register_password);
         til_register_password2 = findViewById(R.id.til_register_password2);
 
-        et_register_email = findViewById(R.id.et_register_email);
-        et_register_password = findViewById(R.id.et_register_password);
-        et_register_password2 = findViewById(R.id.et_register_password2);
         btn_register_register = findViewById(R.id.btn_register_register);
         mAuth_register = FirebaseAuth.getInstance();
-
-
     }
 
-
     public void onClick_register(View view) {
-
         String email = til_register_email.getEditText().getText().toString().trim();
         String password = til_register_password.getEditText().getText().toString();
         String password2 = til_register_password2.getEditText().getText().toString();
 
         if(!password.equals(password2)) {
-
             til_register_password2.setError("비밀번호가 일치하지 않습니다.");
             Toast.makeText(ReigsterActivity.this,
                     "1번은" + til_register_password.getEditText().getText().toString()
                             + "2번은" + til_register_password2.getEditText().getText().toString(),
                     Toast.LENGTH_SHORT).show();
-
-
-
         } else {
             til_register_password2.setError(null);
             if((validateEmail() && validatePassword() && validatePassword2()) == true) {
                 createUser(email, password);
             }
-
         }
     }
 
@@ -131,12 +115,11 @@ public class ReigsterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                FirebaseUser user = mAuth_register.getCurrentUser();
-                                Toast.makeText(ReigsterActivity.this, "회원가입 완료",
-                                        Toast.LENGTH_SHORT).show();
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = mAuth_register.getCurrentUser();
+                            Toast.makeText(ReigsterActivity.this, "회원가입 완료", Toast.LENGTH_SHORT).show();
 
-                                finish();
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(ReigsterActivity.this, "회원가입 실패.  \n이미 존재하는 아이디 입니다.",

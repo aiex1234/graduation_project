@@ -1,15 +1,18 @@
 package com.example.ysh.hyena;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
     TextInputLayout til_password;
     TextInputEditText et_email;
     TextInputEditText et_password;
-
     Button btn_login;
     Button btn_register;
+
+    RelativeLayout relativeLayout;
+    InputMethodManager imm;
     private FirebaseAuth mAuth;
 
     @Override
@@ -40,13 +45,18 @@ public class MainActivity extends AppCompatActivity {
 
         til_email = findViewById(R.id.til_email);
         til_password = findViewById(R.id.til_password);
-
         et_email = findViewById(R.id.et_email);
         et_password = findViewById(R.id.et_password);
 
         btn_login = findViewById(R.id.btn_login);
-        btn_register = findViewById(R.id.btn_register);
+        btn_register = findViewById(R.id.btn_register);;
         mAuth = FirebaseAuth.getInstance();
+
+
+        imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        relativeLayout = findViewById(R.id.rl);
+
+        relativeLayout.setOnClickListener(myClickListener);
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,6 +81,27 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    View.OnClickListener myClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            hideKeyboard();
+            switch (v.getId())
+            {
+                case R.id.rl :
+                    break;
+
+            }
+        }
+    };
+
+    private void hideKeyboard()
+    {
+        imm.hideSoftInputFromWindow(et_email.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(et_password.getWindowToken(), 0);
     }
 
     // 이메일 유효성 검사
@@ -116,14 +147,17 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "사용자님 반갑습니다.",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            Intent intent = new Intent(MainActivity.this, TabActiviy.class);
+                            startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(MainActivity.this, "로그인 실패.",
+                            Toast.makeText(MainActivity.this, "로그인 실패. " +
+                                            "\n 존재하지 않는 사용자이거나 비밀번호가 일치하지 않습니다.",
+
                                     Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
     }
-
 }

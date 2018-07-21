@@ -16,9 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ReigsterActivity"></activity>
         <activity
-            android:name=".ReigsterActivity" >
-        </activity>
+            android:name=".TabActiviy"
+            android:label="@string/title_activity_tab_activiy"></activity>
     </application>
 
 </manifest>

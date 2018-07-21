@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#fef01b">
+    android:background="#fef01b"
+    android:id="@+id/rl">
 
     <TextView
         android:id="@+id/tv_name"
@@ -54,7 +55,6 @@
             android:hint="PassWord"/>
 
     </android.support.design.widget.TextInputLayout>
-
 
     <Button
         android:id="@+id/btn_login"
