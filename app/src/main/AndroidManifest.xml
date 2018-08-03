@@ -9,17 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Login_Register.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReigsterActivity"></activity>
+        <activity android:name=".Login_Register.ReigsterActivity" />
         <activity
-            android:name=".TabActiviy"
-            android:label="@string/title_activity_tab_activiy"></activity>
+            android:name=".Fragment.TabActiviy"
+            android:label="@string/title_activity_tab_activiy" />
+        <activity android:name=".AddActivity"></activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

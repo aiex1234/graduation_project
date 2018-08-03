@@ -1,6 +1,5 @@
-package com.example.ysh.hyena;
+package com.example.ysh.hyena.Login_Register;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -15,6 +14,8 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.ysh.hyena.R;
+import com.example.ysh.hyena.Fragment.TabActiviy;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,15 +28,15 @@ public class MainActivity extends AppCompatActivity {
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
 
-    TextInputLayout til_email;
-    TextInputLayout til_password;
-    TextInputEditText et_email;
-    TextInputEditText et_password;
-    Button btn_login;
-    Button btn_register;
+    private TextInputLayout til_email;
+    private TextInputLayout til_password;
+    private TextInputEditText et_email;
+    private TextInputEditText et_password;
+    private Button btn_login;
+    private Button btn_register;
 
-    RelativeLayout relativeLayout;
-    InputMethodManager imm;
+    private RelativeLayout relativeLayout;
+    private InputMethodManager imm;
     private FirebaseAuth mAuth;
 
     @Override
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         btn_login = findViewById(R.id.btn_login);
         btn_register = findViewById(R.id.btn_register);;
         mAuth = FirebaseAuth.getInstance();
-
 
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         relativeLayout = findViewById(R.id.rl);
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // 화면 터치시 키보드 내려감
     View.OnClickListener myClickListener = new View.OnClickListener()
     {
         @Override
@@ -93,15 +94,15 @@ public class MainActivity extends AppCompatActivity {
             {
                 case R.id.rl :
                     break;
-
             }
         }
     };
 
+    // 화면 터치시 키보드 내려감
     private void hideKeyboard()
     {
-        imm.hideSoftInputFromWindow(et_email.getWindowToken(), 0);
-        imm.hideSoftInputFromWindow(et_password.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(til_email.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(til_password.getWindowToken(), 0);
     }
 
     // 이메일 유효성 검사
@@ -123,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
     // 비밀번호 유효성 검사
     private boolean validatePassword() {
         String passwordInput = til_password.getEditText().getText().toString().trim();
-
         if (passwordInput.isEmpty()) {
             til_password.setError("비밀번호를 입력해주세요");
             return false;
@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // 로그인
     private void userLogin(String email, String password)
     {
         mAuth.signInWithEmailAndPassword(email, password)
@@ -143,7 +144,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(MainActivity.this, "사용자님 반갑습니다.",
                                     Toast.LENGTH_SHORT).show();
                             FirebaseUser user = mAuth.getCurrentUser();
@@ -151,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(MainActivity.this, TabActiviy.class);
                             startActivity(intent);
                         } else {
-                            // If sign in fails, display a message to the user.
                             Toast.makeText(MainActivity.this, "로그인 실패. " +
                                             "\n 존재하지 않는 사용자이거나 비밀번호가 일치하지 않습니다.",
 

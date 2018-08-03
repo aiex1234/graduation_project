@@ -1,31 +1,61 @@
-package com.example.ysh.hyena;
+package com.example.ysh.hyena.Fragment;
 
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.Toast;
+
+import com.example.ysh.hyena.AddActivity;
+import com.example.ysh.hyena.Context.ContextAdapter;
+import com.example.ysh.hyena.Context.DataForm;
+import com.example.ysh.hyena.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TabActiviy extends AppCompatActivity {
 
-    private final int FRAGMENT1 = 1;
-    private final int FRAGMENT2 = 2;
-    private final int FRAGMENT3 = 3;
+    public final int FRAGMENT_PRODUCT = 1;
+    public final int FRAGMENT_ROOM = 2;
+    public final int FRAGMENT_BOOK = 3;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab_activiy);
 
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        callFragment(FRAGMENT1);
+        fab = findViewById(R.id.fab);
+        callFragment(FRAGMENT_PRODUCT);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TabActiviy.this, AddActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -37,22 +67,13 @@ public class TabActiviy extends AppCompatActivity {
             switch (item.getItemId()) {
 
                 case R.id.navigation_home:
-                    callFragment(FRAGMENT1);
-                    Toast.makeText(TabActiviy.this, "프래그먼트1", Toast.LENGTH_SHORT).show();
-                    //ProductFragment fragment = new ProductFragment();
-                    //switchFragment(fragment);
+                    callFragment(FRAGMENT_PRODUCT);
                     return true;
                 case R.id.navigation_dashboard:
-                    callFragment(FRAGMENT2);
-                    Toast.makeText(TabActiviy.this, "프래그먼트2", Toast.LENGTH_SHORT).show();
-                  //  RoomFragment fragment2 = new RoomFragment();
-                   // switchFragment(fragment2);
+                    callFragment(FRAGMENT_ROOM);
                     return true;
                 case R.id.navigation_notifications:
-                    callFragment(FRAGMENT3);
-                    Toast.makeText(TabActiviy.this, "프래그먼트3", Toast.LENGTH_SHORT).show();
-                   // BookFragment fragment3 = new BookFragment();
-                   // switchFragment(fragment3);
+                    callFragment(FRAGMENT_BOOK);
                     return true;
             }
             return false;
@@ -66,26 +87,22 @@ public class TabActiviy extends AppCompatActivity {
 
         switch (frament_no){
             case 1:
-                // '프래그먼트1' 호출
                 Fragment fragment1 = new ProductFragment();
                 transaction.replace(R.id.fragment_container, fragment1);
                 transaction.commit();
                 break;
 
             case 2:
-                // '프래그먼트2' 호출
                 Fragment fragment2 = new RoomFragment();
                 transaction.replace(R.id.fragment_container, fragment2);
                 transaction.commit();
                 break;
 
             case 3:
-                // '프래그먼트3' 호출
                 Fragment fragment3 = new BookFragment();
                 transaction.replace(R.id.fragment_container, fragment3);
                 transaction.commit();
                 break;
         }
     }
-
 }

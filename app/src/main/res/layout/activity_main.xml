@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".Login_Register.MainActivity"
     android:background="#fef01b"
     android:id="@+id/rl">
 
@@ -16,7 +16,6 @@
         android:text="수원대 커뮤니티"
         android:textSize="35dp"
         android:textColor="#8b4513"
-
         android:textStyle="bold|normal"
         android:layout_marginTop="130dp" />
 

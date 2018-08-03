@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="selected">
+        <item> 카테고리를 선택하세요. </item>
+        <item>자취용품</item>
+        <item>방 뺌/ 구함</item>
+        <item>중고서적</item>
+    </string-array>
+
+</resources>

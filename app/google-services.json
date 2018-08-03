@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "888447444707-8bgf3s6fkmefpqfthcaco253o75mbmgg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ysh.hyena",
+            "certificate_hash": "c9e19f19f8a035ae8653699889bd5281759934c0"
+          }
+        },
+        {
           "client_id": "888447444707-lhltmfqre6b43jk0t05oa7ndqbsbi3bo.apps.googleusercontent.com",
           "client_type": 3
         }

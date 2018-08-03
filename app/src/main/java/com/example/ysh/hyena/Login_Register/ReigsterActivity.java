@@ -1,4 +1,4 @@
-package com.example.ysh.hyena;
+package com.example.ysh.hyena.Login_Register;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
@@ -9,11 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.ysh.hyena.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Pattern;
 
@@ -21,13 +21,11 @@ public class ReigsterActivity extends AppCompatActivity {
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
 
+    private TextInputLayout til_register_email;
+    private TextInputLayout til_register_password;
+    private TextInputLayout til_register_password2;
 
-    TextInputLayout til_register_email;
-    TextInputLayout til_register_password;
-    TextInputLayout til_register_password2;
-
-
-    Button btn_register_register;
+    private Button btn_register_register;
     private FirebaseAuth mAuth_register;
 
     @Override
@@ -116,7 +114,6 @@ public class ReigsterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth_register.getCurrentUser();
                             Toast.makeText(ReigsterActivity.this, "회원가입 완료", Toast.LENGTH_SHORT).show();
 
                             finish();
