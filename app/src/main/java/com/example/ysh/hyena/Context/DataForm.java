@@ -1,14 +1,18 @@
 package com.example.ysh.hyena.Context;
 
 public class DataForm {
-    private String title;
-    private String date;
-    private String time;
-    private String price;
     private String category;
-    private String phone;
+    private String date;
     private String email;
+    private String imageUrl;
     private String key;
+    private String phone;
+    private String price;
+    private String time;
+    private String title;
+
+
+
 
     public DataForm() {
         // Default constructor required for calls to DataSnapshot.getValue(Comment.class)
@@ -76,5 +80,13 @@ public class DataForm {
 
     public String getTime() {
         return time;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

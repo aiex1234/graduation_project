@@ -21,16 +21,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookFragment extends Fragment {
 
-    //리사이클러뷰
     private RecyclerView rcv_book;
     private RecyclerView.Adapter mAdapter;
     private ArrayList<DataForm> dataContext;
     private FirebaseDatabase database;
     private String email;
-    //리사이클러뷰
+
 
     public BookFragment() {
     }

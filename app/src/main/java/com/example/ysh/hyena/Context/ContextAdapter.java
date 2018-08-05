@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.ysh.hyena.R;
 
 import java.text.SimpleDateFormat;
@@ -48,14 +50,16 @@ public class ContextAdapter extends RecyclerView.Adapter<ContextAdapter.ViewHold
     // 각각의 아이템안에 들어가 있는 텍스트나 버튼들을 참조하기 위한 메서드
     class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView tv_title;
-        public TextView tv_price;
-        public TextView tv_phone;
-        public TextView tv_date;
-        public TextView tv_time;
-        public Button btnChat;
+        private ImageView iv_main_imageView;
+        private TextView tv_title;
+        private TextView tv_price;
+        private TextView tv_phone;
+        private TextView tv_date;
+        private TextView tv_time;
+        private Button btnChat;
         public ViewHolder(View itemView) {
             super(itemView);
+            iv_main_imageView = itemView.findViewById(R.id.iv_main_image); // 메인사진
             tv_title = itemView.findViewById(R.id.tv_item_title);    // 제목
             tv_price = itemView.findViewById(R.id.tv_item_price2);   // 가격
             tv_phone = itemView.findViewById(R.id.tv_item_phone2);   // 전화번호
@@ -87,13 +91,9 @@ public class ContextAdapter extends RecyclerView.Adapter<ContextAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         DataForm data = mContext.get(position);
 
-
-        long now = System.currentTimeMillis();
         long regTime = Long.parseLong(data.getTime());
         String k = formatTimeString(regTime);
-        Toast.makeText(context, k, Toast.LENGTH_SHORT).show();
-
-
+        Glide.with(holder.itemView.getContext()).load(data.getImageUrl()).into(holder.iv_main_imageView);
         holder.tv_title.setText(data.getTitle());     // 제목
         holder.tv_price.setText(data.getPrice());   // 가격
         holder.tv_phone.setText(data.getPhone());   // 전화번호
