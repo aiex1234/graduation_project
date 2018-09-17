@@ -1,4 +1,4 @@
-package com.example.ysh.hyena.Fragment;
+package com.example.ysh.hyena.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,44 +7,43 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.ysh.hyena.AddActivity;
-import com.example.ysh.hyena.Context.ContextAdapter;
-import com.example.ysh.hyena.Context.DataForm;
 import com.example.ysh.hyena.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class TabActiviy extends AppCompatActivity {
 
-    public final int FRAGMENT_PRODUCT = 1;
-    public final int FRAGMENT_ROOM = 2;
-    public final int FRAGMENT_BOOK = 3;
+    static final int FRAGMENT_PRODUCT = 1;
+    static final int FRAGMENT_ROOM = 2;
+    static final int FRAGMENT_BOOK = 3;
+    static final int FRAGMENT_SEARCH = 4;
+
+    static final String KEY_SEARCH_TEXT = "searchText";
+    static final String KEY_FRAGMENT = "checkFragment";
     private FloatingActionButton fab;
+
+    // 검색 프래그먼트 공개변수
+    public Button btnSearch;
+    public EditText etSearch;
+    public int checkFragment = 1;
+    public  String searchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tab_activiy);
+        setContentView(R.layout.activity_tab);
 
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        btnSearch = findViewById(R.id.btn_search);
+        etSearch = findViewById(R.id.et_search);
 
         fab = findViewById(R.id.fab);
         callFragment(FRAGMENT_PRODUCT);
@@ -57,6 +56,13 @@ public class TabActiviy extends AppCompatActivity {
             }
         });
 
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchText = etSearch.getText().toString();
+                callFragment(FRAGMENT_SEARCH);
+            }
+        });
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -68,12 +74,15 @@ public class TabActiviy extends AppCompatActivity {
 
                 case R.id.navigation_home:
                     callFragment(FRAGMENT_PRODUCT);
+                    checkFragment = FRAGMENT_PRODUCT;
                     return true;
                 case R.id.navigation_dashboard:
                     callFragment(FRAGMENT_ROOM);
+                    checkFragment = FRAGMENT_ROOM;
                     return true;
                 case R.id.navigation_notifications:
                     callFragment(FRAGMENT_BOOK);
+                    checkFragment = FRAGMENT_BOOK;
                     return true;
             }
             return false;
@@ -86,21 +95,32 @@ public class TabActiviy extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         switch (frament_no){
-            case 1:
-                Fragment fragment1 = new ProductFragment();
-                transaction.replace(R.id.fragment_container, fragment1);
+            case FRAGMENT_PRODUCT:
+                Fragment fragment_product = new ProductFragment();
+                transaction.replace(R.id.fragment_container, fragment_product);
                 transaction.commit();
                 break;
 
-            case 2:
-                Fragment fragment2 = new RoomFragment();
-                transaction.replace(R.id.fragment_container, fragment2);
+            case FRAGMENT_ROOM:
+                Fragment fragment_room = new RoomFragment();
+                transaction.replace(R.id.fragment_container, fragment_room);
                 transaction.commit();
                 break;
 
-            case 3:
-                Fragment fragment3 = new BookFragment();
-                transaction.replace(R.id.fragment_container, fragment3);
+            case FRAGMENT_BOOK:
+                Fragment fragment_book = new BookFragment();
+                transaction.replace(R.id.fragment_container, fragment_book);
+                transaction.commit();
+                break;
+
+            case FRAGMENT_SEARCH:
+                Fragment fragment_search = new SearchFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString(KEY_SEARCH_TEXT, searchText);
+                bundle.putInt(KEY_FRAGMENT, checkFragment);
+               // Toast.makeText(getApplication(),searchText,Toast.LENGTH_SHORT).show();
+                fragment_search.setArguments(bundle);
+                transaction.replace(R.id.fragment_container, fragment_search);
                 transaction.commit();
                 break;
         }

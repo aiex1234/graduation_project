@@ -3,13 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ProductFragment">
+    tools:context=".fragment.SearchFragment">
 
     <android.support.v7.widget.RecyclerView
         android:scrollbars="vertical"
-        android:id="@+id/rcv_product"
+        android:id="@+id/rcv_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/context_item"/>
-
 </FrameLayout>

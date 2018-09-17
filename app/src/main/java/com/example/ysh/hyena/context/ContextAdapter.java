@@ -1,4 +1,4 @@
-package com.example.ysh.hyena.Context;
+package com.example.ysh.hyena.context;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,9 +13,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.ysh.hyena.R;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class ContextAdapter extends RecyclerView.Adapter<ContextAdapter.ViewHolder> {
@@ -26,9 +23,11 @@ public class ContextAdapter extends RecyclerView.Adapter<ContextAdapter.ViewHold
     public static final int DAY = 30;
     public static final int MONTH = 12;
 
+    DataForm data;
     List<DataForm> mContext;
     String stEmail;
     Context context;
+
 
     public ContextAdapter(List<DataForm> mContext, String email, Context context) {
         this.mContext = mContext;
@@ -38,7 +37,6 @@ public class ContextAdapter extends RecyclerView.Adapter<ContextAdapter.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-
 
         if (mContext.get(position).getEmail().equals(stEmail)) {
             return 1;
@@ -50,6 +48,7 @@ public class ContextAdapter extends RecyclerView.Adapter<ContextAdapter.ViewHold
     // 각각의 아이템안에 들어가 있는 텍스트나 버튼들을 참조하기 위한 메서드
     class ViewHolder extends RecyclerView.ViewHolder{
 
+        public final View mView;
         private ImageView iv_main_imageView;
         private TextView tv_title;
         private TextView tv_price;
@@ -66,11 +65,13 @@ public class ContextAdapter extends RecyclerView.Adapter<ContextAdapter.ViewHold
             tv_date = itemView.findViewById(R.id.tv_item_date);      // 등록시간
             tv_time = itemView.findViewById(R.id.tv_item_time);
             btnChat = itemView.findViewById(R.id.btn_chat);
+            mView = itemView;
+
 /*
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context, "click " , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, data.getPhone() , Toast.LENGTH_SHORT).show();
                 }
             });
 */
@@ -88,8 +89,8 @@ public class ContextAdapter extends RecyclerView.Adapter<ContextAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        DataForm data = mContext.get(position);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        data = mContext.get(position);
 
         long regTime = Long.parseLong(data.getTime());
         String k = formatTimeString(regTime);
@@ -98,8 +99,16 @@ public class ContextAdapter extends RecyclerView.Adapter<ContextAdapter.ViewHold
         holder.tv_price.setText(data.getPrice());   // 가격
         holder.tv_phone.setText(data.getPhone());   // 전화번호
         holder.tv_date.setText(data.getDate());    // 등록시간
-        holder.tv_time.setText(k);
+        holder.tv_time.setText(k);                  // 몇일전
 
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Toast.makeText(context, holder.tv_phone.getText().toString(), Toast.LENGTH_LONG).show();
+            }
+        });
         holder.btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +143,6 @@ public class ContextAdapter extends RecyclerView.Adapter<ContextAdapter.ViewHold
         return msg;
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return mContext.size();

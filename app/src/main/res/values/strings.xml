@@ -3,4 +3,9 @@
     <string name="title_activity_tab_activiy">TabActiviy</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="err_message_invaild_email">이메일 형식이 아닙니다</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

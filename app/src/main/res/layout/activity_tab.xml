@@ -5,13 +5,38 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.TabActiviy">
+    tools:context=".fragment.TabActiviy">
 
+
+    <RelativeLayout
+        android:id="@+id/rv_search"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="70dp"
+          />
+
+        <Button
+            android:id="@+id/btn_search"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="검색"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/fragment_container"
+        android:layout_below="@+id/rv_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
         android:layout_above="@+id/navigation" >
     </FrameLayout>
 

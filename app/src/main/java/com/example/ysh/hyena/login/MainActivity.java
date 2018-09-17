@@ -1,4 +1,4 @@
-package com.example.ysh.hyena.Login_Register;
+package com.example.ysh.hyena.login;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.ysh.hyena.R;
-import com.example.ysh.hyena.Fragment.TabActiviy;
+import com.example.ysh.hyena.fragment.TabActiviy;
+import com.example.ysh.hyena.singup.SignUpActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ReigsterActivity.class);
+                Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
             til_email.setError("이메일을 입력해주세요");
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(emailInput).matches()) {
-            til_email.setError("이메일 형식이 아닙니다");
+            til_email.setError(getString(R.string.err_message_invaild_email));
             return false;
         } else {
             til_email.setError(null);

@@ -1,6 +1,5 @@
 package com.example.ysh.hyena;
 
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,30 +8,22 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.ysh.hyena.Context.DataForm;
-import com.example.ysh.hyena.Fragment.TabActiviy;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -51,7 +42,6 @@ public class AddActivity extends AppCompatActivity {
     private DatabaseReference mdatabaseReference;
 
     public static final String FB_STORAGE_PATH = "image/";
-    public static final String FB_DATABASE_PATH = "image";
     public static final int REQUEST_CODE = 10;
 
     private Spinner spinner;
@@ -144,7 +134,7 @@ public class AddActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select umage"), REQUEST_CODE);
+        startActivityForResult(Intent.createChooser(intent, "Select image"), REQUEST_CODE);
     }
 
     public void btn_upload(View view) {
@@ -205,7 +195,6 @@ public class AddActivity extends AppCompatActivity {
                                         + "\n카테고리 : " + upload_category
                                         + "\n올린날짜 : " + upload_date
                                 , Toast.LENGTH_SHORT).show();
-
                         if (spinner_number == 1) {
                             mdatabaseReference = database.getReference().child("product").child(upload_date);
                         } else if (spinner_number == 2) {
@@ -225,100 +214,5 @@ public class AddActivity extends AppCompatActivity {
             });
         }
     }
-
-
-/*
-    public void btn_upload(View view) {
-
-        Date date = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        upload_date = df.format(date);
-        upload_reg = System.currentTimeMillis();
-        upload_time = String.valueOf(upload_reg);
-        upload_title = et_title.getText().toString();
-        upload_price = et_price.getText().toString();
-        upload_phone = et_phone.getText().toString();
-
-        if (upload_title == null) {
-            Toast.makeText(AddActivity.this, "제목을 입력하세요!", Toast.LENGTH_SHORT).show();
-        } else if (upload_price == null) {
-            Toast.makeText(AddActivity.this, "가격을 입력하세요!", Toast.LENGTH_SHORT).show();
-        } else if (upload_phone == null) {
-            Toast.makeText(AddActivity.this, "핸드폰 번호를 입력하세요!", Toast.LENGTH_SHORT).show();
-        } else if (upload_category == null) {
-            Toast.makeText(AddActivity.this, "카테고리를 선택하세요!", Toast.LENGTH_SHORT).show();
-        } else if(imgUri == null){
-            Toast.makeText(getApplicationContext(), "이미지를 선택하세요", Toast.LENGTH_SHORT).show();
-        } else {
-            final ProgressDialog dialog = new ProgressDialog(AddActivity.this);
-            dialog.setTitle("게시중입니다.....");
-            dialog.show();
-
-            StorageReference ref = mStorageRef.child(FB_STORAGE_PATH + System.currentTimeMillis() + "." + getImageExt(imgUri));
-
-            ref.putFile(imgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    dialog.dismiss();
-                    Task<Uri> downUrl=taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                    url = downUrl.getResult().toString();
-
-
-                    Log.i("url:",downUrl.getResult().toString());
-                    // url = taskSnapshot.getStorage().getDownloadUrl().toString();
-                   // url = taskSnapshot.getUploadSessionUri().toString();
-
-                    context = new Hashtable<>();
-                    context.put("email", email);
-                    context.put("title", upload_title);
-                    context.put("price", upload_price);
-                    context.put("category", upload_category);
-                    context.put("phone", upload_phone);
-                    context.put("date", upload_date);
-                    context.put("time", upload_time);
-                    context.put("imageUrl", url);
-                    context.put("key", user.getUid());
-                    Toast.makeText(AddActivity.this, "타이틀 : " + upload_title
-                                    + "\n가격 : " + upload_price
-                                    + "\n전화번호 : " + upload_phone
-                                    + "\n카테고리 : " + upload_category
-                                    + "\n올린날짜 : " + upload_date
-                            , Toast.LENGTH_SHORT).show();
-
-                    if (spinner_number == 1) {
-                        mdatabaseReference = database.getReference().child("product").child(upload_date);
-                    } else if (spinner_number == 2) {
-                        mdatabaseReference = database.getReference().child("room").child(upload_date);
-                    } else if (spinner_number == 3) {
-                        mdatabaseReference = database.getReference().child("book").child(upload_date);
-                    }
-
-                    mdatabaseReference.setValue(context);
-                    Toast.makeText(getApplicationContext(), "업로드 성공", Toast.LENGTH_SHORT).show();
-
-                    finish();
-
-                }
-            })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            dialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                            dialog.setMessage("업로드" + (int)progress);
-                        }
-                    });
-        }
-
-    }
-*/
 
 }
