@@ -189,12 +189,7 @@ public class AddActivity extends AppCompatActivity {
                         context.put("time", upload_time);
                         context.put("imageUrl", url);
                         context.put("key", user.getUid());
-                        Toast.makeText(AddActivity.this, "타이틀 : " + upload_title
-                                        + "\n가격 : " + upload_price
-                                        + "\n전화번호 : " + upload_phone
-                                        + "\n카테고리 : " + upload_category
-                                        + "\n올린날짜 : " + upload_date
-                                , Toast.LENGTH_SHORT).show();
+
                         if (spinner_number == 1) {
                             mdatabaseReference = database.getReference().child("product").child(upload_date);
                         } else if (spinner_number == 2) {
@@ -204,11 +199,11 @@ public class AddActivity extends AppCompatActivity {
                         }
 
                         mdatabaseReference.setValue(context);
-                        Toast.makeText(getApplicationContext(), "업로드 성공", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "게시 성공", Toast.LENGTH_SHORT).show();
 
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), "업로드 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "게시 실패", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

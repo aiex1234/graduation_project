@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         et_password = findViewById(R.id.et_password);
 
         btn_login = findViewById(R.id.btn_login);
-        btn_register = findViewById(R.id.btn_register);;
+        btn_register = findViewById(R.id.btn_register);
         mAuth = FirebaseAuth.getInstance();
 
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
